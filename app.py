@@ -1,5 +1,4 @@
 import os
-
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -52,27 +51,30 @@ def weather():
 
 @app.route("/calendar")
 def calendar():
-
-    
-
     """Show calendar page"""
     return render_template("calendar.html")
+
+@app.route("/refresh")
+def calendar_refresh():
+    import gcal_conn
+    gcal_conn.delete_events(gcal_conn.connect())
+    gcal_conn.create_events(gcal_conn.connect())
+    """Show calendar page"""
+    return render_template("calendar.html")
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-
         # TODO: Add the user's entry into the database
         location = request.form.get("location")
         date = request.form.get("date")
         distance = request.form.get("distance")
-
         db.execute("INSERT INTO hikes (location, date, distance) VALUES (?, ?, ?)", location, date, distance)
-
         return redirect("/")
 
     else:
         # TODO: Display the entries in the database on log.html
         hikes=db.execute("SELECT * FROM hikes")
-
         return render_template("log.html", hikes=hikes)
+

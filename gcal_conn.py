@@ -2,7 +2,6 @@
 # 10.4.22
 # google calendar API connection
 
-from pprint import pprint
 import datetime
 import os.path
 from googleapiclient.discovery import build
@@ -12,8 +11,10 @@ from google.auth.transport.requests import Request
 
 NOW = datetime.datetime.utcnow().isoformat() + "Z"
 CLIENT_SECRET_FILE = 'client_secret.json'
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly','https://www.googleapis.com/auth/calendar.events']
+API_KEY = 'AIzaSyAxI7kq-LdGR1QIWqV9LrrfKEzM95DUybc'
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 ALL_EVENTS = []
+HIKE_CAL_ID = 'd25c55c05b60c9c15f1d15d21be8a6d84342aa525c1f348ad7c0969448fadef1@group.calendar.google.com'
 
 def connect():
 
@@ -38,19 +39,16 @@ def connect():
     return service
 
 
-def create_event(service):
-
-    ### Open hikes.db and read
+def create_events(service):
     import sqlite3
     import re
-
     loc_list = []
     distance_list = []
     date_list = []
 
+    # Connect to hikes.db
     sqliteConn = sqlite3.connect('hikes.db')
     cursor = sqliteConn.cursor()
-    
     cursor.execute('SELECT location FROM hikes')
     records = cursor.fetchall()
 
@@ -73,17 +71,10 @@ def create_event(service):
         distance_list.append(i)        
 
     for j in range(len(date_list)):
-
-        print(date_list[j][5:7])
-
-        date_list[j] = datetime.datetime(int(date_list[j][8:12]),int(date_list[j][2:4]),int(date_list[j][5:7])).isoformat()
-        print(date_list[j])
+        date_list[j] = datetime.datetime(int(date_list[j][8:12]),int(date_list[j][2:4]),int(date_list[j][5:7]),int('09')).isoformat()
 
     pattern = '\W'
     pattern2 = '[)(,]'
-
-
-
     for i in range(len(date_list)):
 
         event_request_body = {
@@ -103,21 +94,33 @@ def create_event(service):
             'location':f"Hiking at {re.sub(pattern,' ',loc_list[i])}"
         }
 
-        service.calendars().clear(calendarId = 'd25c55c05b60c9c15f1d15d21be8a6d84342aa525c1f348ad7c0969448fadef1@group.calendar.google.com').execute()
-        service.events().insert(calendarId = 'd25c55c05b60c9c15f1d15d21be8a6d84342aa525c1f348ad7c0969448fadef1@group.calendar.google.com',body = event_request_body).execute()
+        service.events().insert(calendarId = HIKE_CAL_ID,body = event_request_body).execute()
 
 
 def list_events(service):
+    ### LIST EVENTS### 
+    while True:
+        page_token = None
+        events = service.events().list(calendarId=HIKE_CAL_ID, pageToken=page_token).execute()
+        for event in events['items']:
+            print(event['summary'])
+        page_token = events.get('nextPageToken')
+        if not page_token:
+            break
 
-    ### LIST ALL EVENTS ### 
-    # Find events
-    events = service.events().list(calendarId= 'd25c55c05b60c9c15f1d15d21be8a6d84342aa525c1f348ad7c0969448fadef1@group.calendar.google.com', timeMin = NOW, singleEvents=True, orderBy ='startTime').execute()
-    # Append to list
-    ALL_EVENTS.append(events)
-    # Print
-    print(ALL_EVENTS)
+
+def delete_events(service):
+    ### DELETE ALL EVENTS### 
+    while True:
+        page_token = None
+        events = service.events().list(calendarId=HIKE_CAL_ID, pageToken=page_token).execute()
+        for event in events['items']:
+            service.events().delete(calendarId=HIKE_CAL_ID, eventId=event['id']).execute()
+        page_token = events.get('nextPageToken')
+        if not page_token:
+            break
+
 
 ### CREATE HIKES ###
-create_event(connect())
-### LIST HIKES ###
-list_events(connect())
+delete_events(connect())
+create_events(connect())
