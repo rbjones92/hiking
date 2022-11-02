@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Half-Dome Guide
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link href="styles.css" rel="stylesheet">
+        <title>Half-Dome Cables</title>
+    </head>
+
+        <header>
+            <div class="header">
+            <h4>Half-Dome Cables Day Climb</h4>
+        </header>
+
+        <script>
+            (function(d, s, id) {
+                if (d.getElementById(id)) {
+                    if (window.__TOMORROW__) {
+                        window.__TOMORROW__.renderWidget();
+                    }
+                    return;
+                }
+                const fjs = d.getElementsByTagName(s)[0];
+                const js = d.createElement(s);
+                js.id = id;
+                js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+    
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'tomorrow-sdk');
+            </script>
+    
+            <div class="tomorrow"
+               data-location-id="306455"
+               data-language="EN"
+               data-unit-system="IMPERIAL"
+               data-skin="light"
+               data-widget-type="summary"
+               style="padding-bottom:22px;position:relative;"
+            >
+              <a
+                href="https://www.tomorrow.io/weather/"
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+                style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+              >
+                <img
+                  alt="Powered by Tomorrow.io"
+                  src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
+                  width="140"
+                  height="15"
+                />
+              </a>
+            </div>
+
+        <div>
+        <h4>HALF-DOME CABLES PERMIT MUST BE RESERVED IN ADVANCE</h4>
+        <p>This can be done by entering the annual lottery from <a href="https://www.recreation.gov/permits/234652">recreation.gov</a> or by adding a Cables pass onto a wilderness permit for an additional $10/person</p>
+        </div>
+
+        <div class="text-center">
+            <img class="img-fluid w-25" src="/static/IMG_1685.jpg" alt="pic1">
+        </div>
+
+        <div>
+        <h5>Packing List</h5>
+        <ul class="list-group">
+            <li class="list-group-item">Water</li>
+            <li class="list-group-item">Snacks</li>
+            <li class="list-group-item">Bug spray</li>
+            <li class="list-group-item">More water</li>
+            <li class="list-group-item">Flashlight (recommend headlamp)</li>
+            <li class="list-group-item">Gloves</li>
+            <li class="list-group-item">rage or sadness to push you through</li>
+          </ul>
+          </div>
+
+        <div>
+        <div class="text-center">
+        <img class="img-fluid w-50" src="/static/IMG_1663.jpg" alt="pic2">
+        </div>
+        </body>
+
+    </main>
+    </html>
+
+        <!----- weather db? .---->
+        {% endblock %}
+
