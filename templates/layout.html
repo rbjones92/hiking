@@ -20,7 +20,6 @@
             let location = document.querySelector("#location").value;
             alert("Drink water. Don't die today at " +location);
         }
-
     </script>
     <!--I DON'T want to do any work i'm just going to bang on this mug all day-->
     <!--how tf do I create a button to link to another site / .html-->
@@ -33,7 +32,7 @@
                 <!-- TODO: Create a form for users to submit a name, a month, and a day -->
                 <form action="/" method="post">
                     <input autocomplete="off" autofocus name="location" Placeholder="Location" type="text">
-                    <input name="date" placeholder="Day" max="31" min="1" autocomplete="off" autofocus="off">
+                    <input type="date" name="date" placeholder="Day" max="31" min="1" autocomplete="off" autofocus="off">
                     <input name="distance" type="float" placeholder="Distance" min="0" autocomplete="off" autofocus="off">
                     <input type="submit" value="Add Hike">
                 </form>

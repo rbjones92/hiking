@@ -123,4 +123,4 @@ def delete_events(service):
 
 ### CREATE HIKES ###
 delete_events(connect())
-create_events(connect())
+# create_events(connect())

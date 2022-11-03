@@ -69,6 +69,10 @@ def index():
         # TODO: Add the user's entry into the database
         location = request.form.get("location")
         date = request.form.get("date")
+        date = date.replace("-","/")
+        date_1 = date[0:4]
+        date_2 = date[5:]
+        date = date_2+"/"+date_1
         distance = request.form.get("distance")
         db.execute("INSERT INTO hikes (location, date, distance) VALUES (?, ?, ?)", location, date, distance)
         return redirect("/")
